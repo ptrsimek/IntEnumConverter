@@ -7,31 +7,45 @@ namespace Converter
     public class Tests
     {
         [Fact]
+        public void Test_ConvertToInt_Byte()
+        {
+            var val = ConvertToInt(TestEnumByte.C);
+            Assert.Equal(130, val);
+        }
+        
+        [Fact]
+        public void Test_ConvertToInt_Short()
+        {
+            var val = ConvertToInt(TestEnumShort.B);
+            Assert.Equal(10020, val);
+        }
+        
+        [Fact]
         public void Test_ConvertToInt()
         {
-            var val = ConvertToInt(TestEnum.B);
-            Assert.Equal(20, val);
+            var val = ConvertToInt(TestEnumInt.B);
+            Assert.Equal(100020, val);
         }
         
         [Fact]
         public void Test_ConvertToInt_NotValidEnumItem()
         {
-            var val = ConvertToInt((TestEnum)25);
+            var val = ConvertToInt((TestEnumInt)25);
             Assert.Equal(25, val);
         }
         
         [Fact]
         public void Test_ConvertToEnum()
         {
-            var val = ConvertToEnum<TestEnum>(20);
-            Assert.Equal(TestEnum.B, val);
+            var val = ConvertToEnum<TestEnumInt>(100020);
+            Assert.Equal(TestEnumInt.B, val);
         }
         
         [Fact]
         public void Test_ConvertToEnum_NotValidEnumItem()
         {
-            var val = ConvertToEnum<TestEnum>(25);
-            Assert.Equal((TestEnum)25, val);
+            var val = ConvertToEnum<TestEnumInt>(25);
+            Assert.Equal((TestEnumInt)25, val);
         }
 
         private static int ConvertToInt<T>(T val) where T : Enum
@@ -44,13 +58,6 @@ namespace Converter
         {
             var result = IntEnumConverter<T>.Convert(val);
             return result;
-        }
-
-        private enum TestEnum
-        {
-            A = 10,
-            B = 20,
-            C = 30
         }
     }
 }

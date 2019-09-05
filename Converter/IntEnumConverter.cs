@@ -38,7 +38,7 @@ namespace Converter
         
         private static Func<T, int> CreateConverterTToInt()
         {
-            var m = new DynamicMethod(string.Empty, typeof(T), new[] { typeof(T) }, true);
+            var m = new DynamicMethod(string.Empty, typeof(int), new[] { typeof(T) }, true);
             
             var il = m.GetILGenerator();
             il.Emit(OpCodes.Ldarg_0);

@@ -10,11 +10,11 @@ namespace Converter
     {
         private const int TestsCount = 10000;
 
-        private readonly TestEnum enumValue;
+        private readonly TestEnumInt enumValue;
 
         public PerformanceTest()
         {
-            this.enumValue = DateTime.Now.Year > 0 ? TestEnum.B : TestEnum.C;
+            this.enumValue = DateTime.Now.Year > 0 ? TestEnumInt.B : TestEnumInt.C;
         }
         
         [Benchmark]
