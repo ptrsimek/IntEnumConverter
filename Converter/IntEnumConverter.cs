@@ -1,33 +1,30 @@
 namespace Converter
 {
     using System;
-    using System.Linq.Expressions;
     using System.Reflection.Emit;
-
-    public static class Q
-    {
-        
-    }
+    using System.Runtime.CompilerServices;
 
     public static class IntEnumConverter<T> where T : Enum
     {
-        private static readonly Func<int, T> ConvertFunc = CreateConverter();
+        private static readonly Func<int, T> ConvertFuncIntToT = CreateConverterIntToT();
         
-        private static readonly Func<T, int> ConvertFuncX = CreateConverterX();
+        private static readonly Func<T, int> ConvertFuncTToInt = CreateConverterTToInt();
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Convert(int e)
         {
-            var result = ConvertFunc(e);
+            var result = ConvertFuncIntToT(e);
             return result;
         }
         
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Convert(T e)
         {
-            var result = ConvertFuncX(e);
+            var result = ConvertFuncTToInt(e);
             return result;
         }
 
-        private static Func<int, T> CreateConverter()
+        private static Func<int, T> CreateConverterIntToT()
         {
             var m = new DynamicMethod(string.Empty, typeof(T), new[] { typeof(int) }, true);
 
@@ -39,9 +36,9 @@ namespace Converter
             return result;
         }
         
-        private static Func<T, int> CreateConverterX()
+        private static Func<T, int> CreateConverterTToInt()
         {
-            var m = new DynamicMethod(string.Empty, typeof(T), new[] { typeof(T) }, false);
+            var m = new DynamicMethod(string.Empty, typeof(T), new[] { typeof(T) }, true);
             
             var il = m.GetILGenerator();
             il.Emit(OpCodes.Ldarg_0);
@@ -49,13 +46,6 @@ namespace Converter
             
             var result = (Func<T, int>)m.CreateDelegate(typeof(Func<T, int>));
             return result;
-            
-            //var arg = Expression.Parameter(typeof(T), "arg");
-            //
-            //var f = Expression.Lambda<Func<T, int>>(Expression.Convert(arg, typeof(int)), arg);
-            //var result = f.Compile()
-            //
-            // return result;
         }
     }
 }
