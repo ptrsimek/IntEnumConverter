@@ -4,7 +4,7 @@ namespace Converter
 
     using Xunit;
 
-    public class Tests
+    public class UnsafeTests
     {
         [Fact]
         public void Test_ConvertToInt_Byte()
@@ -50,13 +50,13 @@ namespace Converter
 
         private static int ConvertToInt<T>(T val) where T : Enum
         {
-            var result = IntEnumConverter<T>.Convert(val);
+            var result = IntEnumConverterUnsafe.Convert(val);
             return result;
         }
         
         private static T ConvertToEnum<T>(int val) where T : Enum
         {
-            var result = IntEnumConverter<T>.Convert(val);
+            var result = IntEnumConverterUnsafe.Convert<T>(val);
             return result;
         }
     }
